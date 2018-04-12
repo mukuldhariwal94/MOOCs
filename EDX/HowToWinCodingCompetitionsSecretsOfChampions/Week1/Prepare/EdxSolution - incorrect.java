@@ -42,22 +42,16 @@ public class EdxSolution {
 			sum += greaterValue;
 		}
 
-		if (!elementPickedFromPractical || !elementPickedFromTheory) {
-			int minValue = Integer.MAX_VALUE;
-			int minValueIndex = 0;
-			for (int i = 0; i < practical.length; i++) {
-				int diff = Math.abs(practical[i] - theory[i]);
-				if (diff < minValue) {
-					minValue = diff;
-					minValueIndex = i;
-				}
-			}
-			if (!elementPickedFromPractical) {
-				sum = sum - theory[minValueIndex] + practical[minValueIndex];
-			} else {
-				sum = sum + theory[minValueIndex] - practical[minValueIndex];
+		if (!elementPickedFromPractical) {
+			Integer[] minValueIndexs = finMinValueIndexs(theory);
+			int indexToRemove = findIndex(minValueIndexs, practical);
+			sum = sum - theory[indexToRemove] + practical[indexToRemove];
+		}
 
-			}
+		if (!elementPickedFromTheory) {
+			Integer[] minValueIndexs = finMinValueIndexs(practical);
+			int indexToRemove = findIndex(minValueIndexs, theory);
+			sum = sum - practical[indexToRemove] + theory[indexToRemove];
 		}
 
 		outputWriter.writeSingleLine(String.valueOf(sum));
